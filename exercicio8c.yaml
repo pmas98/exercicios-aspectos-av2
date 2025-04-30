@@ -8,7 +8,7 @@ table:
     X: {R: scan_right}
     Y: {R: scan_right}
     0: {R: scan_right}
-    ' ': {L: check_empty}
+    ' ': {R: accept}
 
   find_0_first:
     0: {write: X, R: find_0_second}
