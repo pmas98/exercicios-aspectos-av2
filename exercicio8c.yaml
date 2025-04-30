@@ -1,0 +1,46 @@
+input: '100100'   # tem 3 zeros e 2 uns, deve rejeitar  
+blank: ' '  
+start state: scan_right  
+
+table:
+  scan_right:
+    1: {write: Y, R: find_0_first}
+    X: {R: scan_right}
+    Y: {R: scan_right}
+    0: {R: scan_right}
+    ' ': {L: check_empty}
+
+  find_0_first:
+    0: {write: X, R: find_0_second}
+    X: {R: find_0_first}
+    Y: {R: find_0_first}
+    1: {R: find_0_first}
+    ' ': {R: accept}
+
+  find_0_second:
+    0: {write: X, L: return_left}
+    X: {R: find_0_second}
+    Y: {R: find_0_second}
+    1: {R: find_0_second}
+    ' ': {R: accept}
+
+  return_left:
+    0: {L: return_left}
+    1: {L: return_left}
+    X: {L: return_left}
+    Y: {L: return_left}
+    ' ': {R: scan_right}
+
+  check_empty:
+    X: {L: check_empty}
+    Y: {L: check_empty}
+    ' ': {R: reject}
+    0: {R: accept}
+    1: {R: accept}
+
+  accept:
+    ' ': {R: accept}
+
+  reject:
+    ' ': {R: reject}
+

@@ -1,0 +1,44 @@
+input: '1100' 
+blank: ' '
+start state: scan_right
+table: 
+  scan_right:
+    0: {write: X, R: find_1}
+    1: {write: Y, R: find_0}
+    ' ': {L: check_empty}
+    X: {R: scan_right}
+    Y: {R: scan_right}
+ 
+  find_1:
+    0: {R: find_1}
+    1: {write: Y, L: return_left}
+    X: {R: find_1}
+    Y: {R: find_1}
+    ' ': {R: reject}
+ 
+  find_0:
+    0: {write: X, L: return_left}
+    1: {R: find_0}
+    X: {R: find_0}
+    Y: {R: find_0}
+    ' ': {R: reject}
+ 
+  return_left:
+    0: {L: return_left}
+    1: {L: return_left}
+    X: {L: return_left}
+    Y: {L: return_left}
+    ' ': {R: scan_right}
+ 
+  check_empty:
+    X: {L: check_empty}
+    Y: {L: check_empty}
+    ' ': {R: accept}
+    0: {R: reject}
+    1: {R: reject}
+ 
+  accept:
+    ' ': {R: accept}
+ 
+  reject:
+    ' ': {R: reject}

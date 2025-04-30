@@ -1,0 +1,64 @@
+input: '101#101'
+blank: ' '
+start state: start
+table:
+  start:
+    X: R
+    Y: R
+    0: {write: X, R: find_match_0}
+    1: {write: Y, R: find_match_1}
+    '#': {R: verify_second_part}
+    ' ': {R: accept}
+
+  find_match_0:
+    0: R
+    1: R
+    X: R
+    Y: R
+    '#': {R: find_0}
+
+  find_match_1:
+    0: R
+    1: R
+    X: R
+    Y: R
+    '#': {R: find_1}
+
+  find_0:
+    X: R
+    Y: R
+    0: {write: X, L: go_back}
+    1: {R: reject}
+    ' ': {R: reject}
+
+  find_1:
+    X: R
+    Y: R
+    1: {write: Y, L: go_back}
+    0: {R: reject}
+    ' ': {R: reject}
+
+  go_back:
+    0: L
+    1: L
+    X: L
+    Y: L
+    '#': {L: back_to_start}
+
+  back_to_start:
+    0: L
+    1: L
+    X: L
+    Y: L
+    ' ': {R: start}
+
+  verify_second_part:
+    X: R
+    Y: R
+    0: {R: reject}
+    1: {R: reject}
+    ' ': {R: accept}
+
+  accept: {}
+
+  reject: {}
